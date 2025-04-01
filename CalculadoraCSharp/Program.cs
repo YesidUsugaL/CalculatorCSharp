@@ -63,13 +63,16 @@ class Program
             case '-': return num1 - num2;
             case '*': return num1 * num2;
             case '/': return num2 == 0 ? double.NaN : num1 / num2;
+            //case 'H'
             default: return 0;
         }
     }
 
     static bool PreguntarSiContinua()
     {
-        Console.Write("¿Quieres hacer otra operacion? (S/N): ");
+        Console.Write("¿Quieres hacer otra operacion? (S/N): ");// \n Desea ver el historial de sus operaciones
         return Console.ReadLine().Trim().ToUpper() == "S";
     }
+    //añadir la funcionalidad de guardar las operaciones y que el usuario las pueda ver, ya sea con listas 
+    //o preferiblemente con arreglos , recuerda el uso del modificador static
 }
