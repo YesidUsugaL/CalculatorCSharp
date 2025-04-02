@@ -1,75 +1,80 @@
 ﻿using System;
-using System.Reflection.PortableExecutable;
 
 class Program
 {
     static void Main()
     {
-        Console.WriteLine("Calculadora con funciones");
-
-        bool continuar = true;
-
-        while (continuar)
+        while (true)
         {
-            double num1 = PedirNumero("Ingresa el primer número: ");
-            double num2 = PedirNumero("Ingresa el segundo número: ");
-            char operacion = PedirOperacion();
+            Console.Clear();
+            Console.WriteLine("Calculadora avanzada: ");
+            Console.WriteLine("1. Sumar");
+            Console.WriteLine("2. Restar");
+            Console.WriteLine("3. Multiplicar");
+            Console.WriteLine("4. Dividir");
+            Console.WriteLine("5. Potencia");
+            Console.WriteLine("6. Raíz");
+            Console.WriteLine("7. Salir");
+            Console.Write("Elige una opción: ");
 
-            double resultado = Calcular(num1, num2, operacion);
+            int opcion;
+            if (!int.TryParse(Console.ReadLine(), out opcion) || opcion < 1 || opcion > 7)
+            {
+                Console.WriteLine("Opcion no valida. Intentalo de nuevo.");
+                Console.ReadKey();
+                continue;
+            }
+
+            if (opcion == 7)
+            {
+                Console.WriteLine("Saliendo de la calculadora...");
+                break;
+            }
+
+            Console.Write("Ingrese el primer numero: ");
+            double num1 = Convert.ToDouble(Console.ReadLine());
+
+            double num2 = 0;
+
+            if (opcion != 6)
+            {
+                Console.Write("Ingrese el segundo numero: ");
+                num2 = Convert.ToDouble(Console.ReadLine());
+            }
+
+            double resultado = 0;
+
+            switch (opcion)
+            {
+                case 1:
+                    resultado = num1 + num2;
+                    break;
+                case 2:
+                    resultado = num1 - num2;
+                    break;
+                case 3:
+                    resultado = num1 * num2;
+                    break;
+                case 4:
+                    if (num2 == 0)
+                    {
+                        Console.WriteLine("No se puede dividir por cero.");
+                        Console.ReadKey();
+                        continue;
+                    }
+                    resultado = num1 / num2;
+                    break;
+                case 5:
+                    resultado = Math.Pow(num1, num2);
+                    break;
+                case 6:
+                    resultado = Math.Pow(num1, 1.0 / num2);
+                    break;
+            }
 
             Console.WriteLine($"Resultado: {resultado}");
-
-            continuar = PreguntarSiContinua();
+            Console.WriteLine("Presione cualquier tecla para continuar... ");
+            Console.ReadKey();
         }
-
-        Console.WriteLine("¡Gracias por usar la calculadora!");
-    }
-
-
-    //Metodo para pedir un numero con validacion
-    static double PedirNumero(string mensaje)
-    {
-        double numero;
-        while (true)
-        {
-            Console.Write(mensaje);
-            if (double.TryParse(Console.ReadLine(), out numero))
-            {
-                return numero;
-            }
-            Console.WriteLine("Entrada no valida. Ingresa un numero.");
-        }
-    }
-
-    static char PedirOperacion()
-    {
-        while (true)
-        {
-            Console.Write("Elige una operacion (+, -, *, /): ");
-            string input = Console.ReadLine();
-            if (!string.IsNullOrEmpty(input) && "+-*/".Contains(input))
-            {
-                return input[0];
-            }
-            Console.WriteLine("Operacion invalida. Intentalo de nuevo.");
-        }
-    }
-
-    static double Calcular(double num1, double num2, char operacion)
-    {
-        switch (operacion)
-        {
-            case '+': return num1 + num2;
-            case '-': return num1 - num2;
-            case '*': return num1 * num2;
-            case '/': return num2 == 0 ? double.NaN : num1 / num2;
-            default: return 0;
-        }
-    }
-
-    static bool PreguntarSiContinua()
-    {
-        Console.Write("¿Quieres hacer otra operacion? (S/N): ");
-        return Console.ReadLine().Trim().ToUpper() == "S";
     }
 }
